@@ -18,14 +18,14 @@ class Number_Position
         {
             is_inv = false;
             no_len=s.nextInt();
-            if(no_len>=9 || no_len<0)
+            if(no_len>9 || no_len<1)
             {
                 System.out.print("Try again\t\t: ");
                 is_inv = true;
             }
         }while(is_inv);
-        
-        //setting tab
+
+        //setting the necessary variables
         if(no_len<=2)
             tab = "\t\t|";
         else
@@ -33,11 +33,15 @@ class Number_Position
         s.nextLine();
         rnAr = new int[no_len];
         gnAr = new int[no_len];
-        rn_gen();
+
+        if(no_len == 4)
+            rn_gen_4();
+        else
+            rn_gen_not_4();
+
         System.out.print("\nEnter a no. and if you want to exit, enter 0\t\t");
         int gue_no;
         System.out.print("\n|Sn |No.\t|Cd|Cp|\t\t");
-        
         do
         {
             gue_no=s.nextInt();
@@ -69,8 +73,103 @@ class Number_Position
                 System.out.println(rnAr[i]);
         }
     }
+
+    public static void rn_gen_4()//
+    {
+        int wa5, wi5, won, ta5 = 0, ti5 = 0, ton = 0, rd = r.nextInt(6);
+        if(rd  == 0)
+        {
+            wa5 = 1;
+            wi5 = 2;
+            won = 1;
+        }
+        else if(rd == 1)
+        {
+            wa5 = 2;
+            wi5 = 1;
+            won = 1;
+        }
+        else if(rd == 2)
+        {
+            wa5 = 1;
+            wi5 = 1;
+            won = 2;
+        }
+        else if(rd == 3)
+        {
+            wa5 = 0;
+            wi5 = 2;
+            won = 2;
+        }
+        else if(rd == 4)
+        {
+            wa5 = 2;
+            wi5 = 0;
+            won = 2;
+        }
+        else
+        {
+            wa5 = 2;
+            wi5 = 2;
+            won = 0;
+        }
+        System.out.println("Random" + rd);
+
+        boolean is_duplicate;
+        for(int i = 0 ; i<no_len ; i++)
+        {
+            int temp_rnd, c=0, v=10;
+            if(i==0)
+            {
+                c=1;
+                v=9;
+            }
+            else
+            {
+                c=0;
+                v=10;
+            }
+            
+            do
+            {
+                boolean a5 = true, i5 = true, on = true;
+                temp_rnd = r.nextInt(v) + c;
+                System.out.println(temp_rnd);
+                
+                if(temp_rnd >= 1 && temp_rnd <= 4)
+                    a5 = ta5 <= wa5;
+                if(temp_rnd >= 5 && temp_rnd <= 8)
+                    i5 = ti5 <= wi5;
+                if(temp_rnd == 0 || temp_rnd == 9)
+                    on = ton <= won;
+                
+                is_duplicate = false;
+                if(a5 && i5 &&  on)
+                {
+                    for(int j = 0 ; j<i ; j++)
+                    {
+                        if(rnAr[j]==temp_rnd)
+                        {
+                            is_duplicate = true;
+                            break;
+                        }    
+                    }
+                }
+            }
+            while(is_duplicate);
+            System.out.println("selected : " + temp_rnd);
+            rnAr[i] = temp_rnd;
+            if(rnAr[i] >=1 && rnAr[i] <= 4)
+                ta5++;
+            else if(rnAr[i] >= 5 && rnAr[i] <= 8)
+                ti5++;
+            else
+                ton++;
+        }
+            System.out.println(ta5 + " " + ti5 + " " + ton);
+    }
         
-    public static void rn_gen()//generates the random no. to guess
+    public static void rn_gen_not_4()//generates the random no. that is not 4 digits long to guess
     {
         boolean is_duplicate;
         for(int i = 0 ; i<no_len ; i++)
@@ -97,11 +196,12 @@ class Number_Position
                         is_duplicate = true;
                         break;
                     }    
-                    
                 }
             }
             while(is_duplicate);
-            rnAr[i]=temp_rnd;
+            System.out.println(temp_rnd);
+
+            rnAr[i] = temp_rnd;
         }
     }
     
